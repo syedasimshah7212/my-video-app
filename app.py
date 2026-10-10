@@ -196,3 +196,18 @@ with tab3:
 
 st.markdown("---")
 st.caption("Built as a prototype by Grok. To add real AI style transfer, connect DomoAI / Runway / other APIs in the processing functions. Run with: streamlit run app.py")
+def download_youtube(url, output_path):
+    ydl_opts = {
+        'format': 'best[height<=720]/best',  # single format, no merge needed
+        'outtmpl': str(output_path),
+        'quiet': True,
+        'no_warnings': True,
+        'merge_output_format': 'mp4',
+    }
+    try:
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            ydl.download([url])
+        return True
+    except Exception as e:
+        st.error(f"Download failed: {e}")
+        return False
